@@ -10,7 +10,7 @@ const GlobalStyle = css`
   }
 
   body {
-    --color: white;
+    --btn-color: #1976d2;
   }
 
   html,

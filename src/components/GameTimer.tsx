@@ -47,6 +47,7 @@ function GameTimer() {
           status={player1.status}
           player={TURN.player1}
           curTurn={turn === TURN.player1}
+          uiType={uiType}
           totalTime={player1.totalTime}
           turnTime={player1.turnTime}
           handlers={handlers}
@@ -56,6 +57,7 @@ function GameTimer() {
           status={player2.status}
           player={TURN.player2}
           curTurn={turn === TURN.player2}
+          uiType={uiType}
           totalTime={player2.totalTime}
           turnTime={player2.turnTime}
           handlers={handlers}

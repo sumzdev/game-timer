@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { STATUS, TIMER_STATUS, TURN } from "../constants/timer";
 import { TimerHandlersType } from "../hooks/useGameTimer";
 import { formatElapsedTime } from "../utils/timeToString";
+import { UI_TYPE } from "../constants/mode";
 
 const Color = {
   red: "red",
@@ -16,6 +17,7 @@ interface TimerContainerProps {
   status: keyof typeof TIMER_STATUS;
   player: keyof typeof TURN;
   curTurn: boolean;
+  uiType: (typeof UI_TYPE)[keyof typeof UI_TYPE];
   totalTime: number;
   turnTime: number;
   handlers: TimerHandlersType;
@@ -28,6 +30,11 @@ interface ContainerProps extends ColorProps {
   cursor: string;
 }
 
+interface UITypeProps {
+  turn: keyof typeof TURN;
+  uiType: (typeof UI_TYPE)[keyof typeof UI_TYPE];
+}
+
 const Container = styled.button<ContainerProps>`
   display: flex;
   flex-direction: column;
@@ -35,13 +42,27 @@ const Container = styled.button<ContainerProps>`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 10px;
   user-select: none;
   border-radius: 30px;
   cursor: ${(props) => props.cursor};
   background-color: ${(props) => `var(--${props.color})`};
   border: 7px solid ${(props) => `var(--border-${props.color})`};
   transition: all 0.1s ease;
+`;
+
+const Wrapper = styled.div<UITypeProps>`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  height: 250px;
+  rotate: ${(props) =>
+    props.uiType === UI_TYPE[3]
+      ? "270deg"
+      : props.uiType === UI_TYPE[2] && props.turn === TURN.player1
+      ? "180deg"
+      : ""};
 `;
 
 const TimeWrapper = styled.div`
@@ -85,6 +106,7 @@ function TimerContainer({
   gameStatus,
   status,
   player,
+  uiType,
   // curTurn,
   totalTime,
   turnTime,
@@ -147,13 +169,15 @@ function TimerContainer({
 
   return (
     <Container color={color} onClick={onClickHandler} cursor={cursor}>
-      <TimeWrapper>
-        <TotalTime>{formatElapsedTime(totalTime)}</TotalTime>
-        <TurnTime>{formatElapsedTime(turnTime)}</TurnTime>
-      </TimeWrapper>
-      <ActionTextWrapper>
-        {buttonText && <ActionText color={color}>{buttonText}</ActionText>}
-      </ActionTextWrapper>
+      <Wrapper turn={player} uiType={uiType}>
+        <TimeWrapper>
+          <TotalTime>{formatElapsedTime(totalTime)}</TotalTime>
+          <TurnTime>{formatElapsedTime(turnTime)}</TurnTime>
+        </TimeWrapper>
+        <ActionTextWrapper>
+          {buttonText && <ActionText color={color}>{buttonText}</ActionText>}
+        </ActionTextWrapper>
+      </Wrapper>
     </Container>
   );
 }

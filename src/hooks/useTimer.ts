@@ -1,10 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import {
-  DEFAULT_TOTAL_MINUTES,
-  DEFAULT_TURN_MINUTES,
-  STATUS,
-  TIMER_STATUS,
-} from "../constants/timer";
+import { STATUS, TIMER_STATUS } from "../constants/timer";
+import { SettingProps } from "./useTimerSetting";
 
 const MS_BY_COUNT = 1000;
 const MS_TO_MIN = 60 * 1000;
@@ -23,8 +19,8 @@ export default function useTimer({
   const [status, setStatus] = useState<keyof typeof TIMER_STATUS>(
     TIMER_STATUS.init
   );
-  const [totalTime, setTotalTime] = useState(DEFAULT_TOTAL_MINUTES * MS_TO_MIN);
-  const [turnTime, setTurnTime] = useState(DEFAULT_TURN_MINUTES * MS_TO_MIN);
+  const [totalTime, setTotalTime] = useState(totalMinutes * MS_TO_MIN);
+  const [turnTime, setTurnTime] = useState(turnLimitMinutes * MS_TO_MIN);
   const timerIdRef = useRef<number | null>(null);
 
   const start = () => {
@@ -101,6 +97,12 @@ export default function useTimer({
     }, MS_BY_COUNT);
   };
 
+  const setTime = ({ totalMinutes, turnLimitMinutes }: SettingProps) => {
+    setStatus(TIMER_STATUS.init);
+    setTotalTime(totalMinutes * MS_TO_MIN);
+    setTurnTime(turnLimitMinutes * MS_TO_MIN);
+  };
+
   useEffect(() => {
     if (turnTime - MS_BY_COUNT <= 0) {
       setStatus(TIMER_STATUS.endTurn);
@@ -121,6 +123,7 @@ export default function useTimer({
     status,
     totalTime: totalTime,
     turnTime: turnTime,
+    setTime,
     start,
     wait,
     pause,

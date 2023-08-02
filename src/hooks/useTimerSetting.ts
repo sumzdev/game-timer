@@ -40,8 +40,8 @@ export default function useTimerSetting() {
       turnLimitMinutes >= MIN_LIMIT_MIN &&
       turnLimitMinutes < totalMinutes
     ) {
-      setTotalMinutes(totalMinutes + "");
-      setTurnLimitMinutes(turnLimitMinutes + "");
+      setTotalMinutes(totalMinutes);
+      setTurnLimitMinutes(turnLimitMinutes);
       setInitialized(true);
     }
   };

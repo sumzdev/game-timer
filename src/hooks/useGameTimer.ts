@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { STATUS, TURN } from "../constants/timer";
 import useTimer from "./useTimer";
+import { SettingProps } from "./useTimerSetting";
 
 export interface TimerHandlersType {
   start: (turn?: keyof typeof TURN) => void;
@@ -8,6 +9,7 @@ export interface TimerHandlersType {
   pause: () => void;
   stop: () => void;
   reset: () => void;
+  setTime: ({ totalMinutes, turnLimitMinutes }: SettingProps) => void;
 }
 
 export default function useGameTimer({
@@ -75,6 +77,11 @@ export default function useGameTimer({
     timer[getOtherPlayer(turn)].reset();
   };
 
+  const setTime = ({ totalMinutes, turnLimitMinutes }: SettingProps) => {
+    timer[turn].setTime({ totalMinutes, turnLimitMinutes });
+    timer[getOtherPlayer(turn)].setTime({ totalMinutes, turnLimitMinutes });
+  };
+
   return {
     status,
     turn,
@@ -90,6 +97,6 @@ export default function useGameTimer({
         status: timer[TURN.player2].status,
       },
     },
-    handlers: { start, switchTurn, pause, stop, reset },
+    handlers: { setTime, start, switchTurn, pause, stop, reset },
   };
 }

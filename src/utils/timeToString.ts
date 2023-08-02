@@ -12,8 +12,9 @@ export const formatElapsedTimeMS = (elapsedTime: number) => {
 };
 
 export const formatElapsedTime = (elapsedTime: number) => {
-  const date = new Date(elapsedTime);
-  const [ss, mm] = [date.getSeconds(), date.getMinutes()];
+  const ms = elapsedTime % 1000;
+  const ss = Math.floor(((elapsedTime - ms) / 1000) % 60);
+  const mm = Math.floor((elapsedTime - ss - ms) / 1000 / 60);
 
   return `${formatTime(mm)}:${formatTime(ss)}`;
 };

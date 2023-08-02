@@ -67,12 +67,12 @@ const ResetIcon = styled(RefreshIcon)`
   font-size: 1.8rem;
 `;
 
-function Menu({
+function Header({
   status,
   initialized,
   curSetting,
   changeTimerSetting,
-  handlers: { start, pause, stop, reset },
+  handlers: { start, pause, stop, reset, setTime },
 }: HeaderProps) {
   const [isOpenSetting, setIsOpenSetting] = useState<boolean>(!initialized);
 
@@ -81,6 +81,7 @@ function Menu({
     turnLimitMinutes,
   }: SettingProps) => {
     changeTimerSetting({ totalMinutes, turnLimitMinutes });
+    setTime({ totalMinutes, turnLimitMinutes });
     setIsOpenSetting(false);
   };
 
@@ -139,4 +140,4 @@ function Menu({
   );
 }
 
-export default Menu;
+export default Header;

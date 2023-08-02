@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { STATUS, TIMER_STATUS } from "../constants/timer";
-import { SettingProps } from "./useTimerSetting";
 
 const MS_BY_COUNT = 1000;
 const MS_TO_MIN = 60 * 1000;
@@ -9,6 +8,11 @@ interface UseTimerProps {
   totalMinutes: number;
   turnLimitMinutes: number;
   setTimerStatus: Dispatch<SetStateAction<keyof typeof STATUS>>;
+}
+
+export interface TimerSettingProps {
+  totalMinutes: number;
+  turnLimitMinutes: number;
 }
 
 export default function useTimer({
@@ -97,7 +101,7 @@ export default function useTimer({
     }, MS_BY_COUNT);
   };
 
-  const setTime = ({ totalMinutes, turnLimitMinutes }: SettingProps) => {
+  const setTime = ({ totalMinutes, turnLimitMinutes }: TimerSettingProps) => {
     setStatus(TIMER_STATUS.init);
     setTotalTime(totalMinutes * MS_TO_MIN);
     setTurnTime(turnLimitMinutes * MS_TO_MIN);

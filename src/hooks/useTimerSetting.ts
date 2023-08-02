@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   TIMER_MINUTES_KEY,
   TURN_LIMIT_MINUTES_KEY,
+  UI_TYPE_KEY,
 } from "../constants/localStorageKeys";
 import {
   DEFAULT_TOTAL_MINUTES,
@@ -11,10 +12,12 @@ import {
   MIN_TIMER_MIN,
 } from "../constants/timer";
 import useLocalStorage from "./useLocalStorage";
+import { UI_TYPE } from "../constants/mode";
 
 export interface SettingProps {
   totalMinutes: number;
   turnLimitMinutes: number;
+  uiType: (typeof UI_TYPE)[keyof typeof UI_TYPE];
 }
 
 export default function useTimerSetting() {
@@ -29,10 +32,15 @@ export default function useTimerSetting() {
     key: TURN_LIMIT_MINUTES_KEY,
     defaultValue: DEFAULT_TURN_MINUTES + "",
   });
+  const [uiType, setUiType] = useLocalStorage({
+    key: UI_TYPE_KEY,
+    defaultValue: "1",
+  });
 
-  const changeTimerSetting = ({
+  const changeSetting = ({
     totalMinutes,
     turnLimitMinutes,
+    uiType,
   }: SettingProps) => {
     if (
       totalMinutes >= MIN_TIMER_MIN &&
@@ -42,6 +50,7 @@ export default function useTimerSetting() {
     ) {
       setTotalMinutes(totalMinutes);
       setTurnLimitMinutes(turnLimitMinutes);
+      setUiType(uiType);
       setInitialized(true);
     }
   };
@@ -50,6 +59,7 @@ export default function useTimerSetting() {
     initialized,
     totalMinutes: +totalMinutes,
     turnLimitMinutes: +turnLimitMinutes,
-    changeTimerSetting,
+    uiType,
+    changeSetting,
   };
 }

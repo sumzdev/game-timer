@@ -10,6 +10,7 @@ import { BTN_DISABLE_BY_STATUS, STATUS } from "../constants/timer";
 import { TimerHandlersType } from "../hooks/useGameTimer";
 import { SettingDialog } from ".";
 import { SettingProps } from "../hooks/useTimerSetting";
+import { UI_TYPE } from "../constants/mode";
 
 interface HeaderProps {
   initialized: boolean;
@@ -17,10 +18,12 @@ interface HeaderProps {
   curSetting: {
     totalMinutes: number;
     turnLimitMinutes: number;
+    uiType: (typeof UI_TYPE)[keyof typeof UI_TYPE];
   };
-  changeTimerSetting: ({
+  changeSetting: ({
     totalMinutes,
     turnLimitMinutes,
+    uiType,
   }: SettingProps) => void;
   handlers: TimerHandlersType;
 }
@@ -71,7 +74,7 @@ function Header({
   status,
   initialized,
   curSetting,
-  changeTimerSetting,
+  changeSetting,
   handlers: { start, pause, stop, reset, setTime },
 }: HeaderProps) {
   const [isOpenSetting, setIsOpenSetting] = useState<boolean>(!initialized);
@@ -79,8 +82,9 @@ function Header({
   const handleSubmitSetting = ({
     totalMinutes,
     turnLimitMinutes,
+    uiType,
   }: SettingProps) => {
-    changeTimerSetting({ totalMinutes, turnLimitMinutes });
+    changeSetting({ totalMinutes, turnLimitMinutes, uiType });
     setTime({ totalMinutes, turnLimitMinutes });
     setIsOpenSetting(false);
   };

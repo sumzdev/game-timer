@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 `;
 
 function GameTimer() {
-  const { initialized, totalMinutes, turnLimitMinutes, changeTimerSetting } =
+  const { initialized, totalMinutes, turnLimitMinutes, uiType, changeSetting } =
     useTimerSetting();
 
   const {
@@ -37,8 +37,8 @@ function GameTimer() {
       <Header
         initialized={initialized}
         status={status}
-        curSetting={{ totalMinutes, turnLimitMinutes }}
-        changeTimerSetting={changeTimerSetting}
+        curSetting={{ totalMinutes, turnLimitMinutes, uiType }}
+        changeSetting={changeSetting}
         handlers={handlers}
       />
       <Wrapper>

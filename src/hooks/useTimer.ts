@@ -9,19 +9,22 @@ import {
 const MS_BY_COUNT = 1000;
 const MS_TO_MIN = 60 * 1000;
 
-export default function useTimer(
-  setTimerStatus: Dispatch<SetStateAction<keyof typeof STATUS>>
-) {
+interface UseTimerProps {
+  totalMinutes: number;
+  turnLimitMinutes: number;
+  setTimerStatus: Dispatch<SetStateAction<keyof typeof STATUS>>;
+}
+
+export default function useTimer({
+  totalMinutes,
+  turnLimitMinutes,
+  setTimerStatus,
+}: UseTimerProps) {
   const [status, setStatus] = useState<keyof typeof TIMER_STATUS>(
     TIMER_STATUS.init
   );
   const [totalTime, setTotalTime] = useState(DEFAULT_TOTAL_MINUTES * MS_TO_MIN);
   const [turnTime, setTurnTime] = useState(DEFAULT_TURN_MINUTES * MS_TO_MIN);
-  const [endTimerMinutes, setEndTimerMinutes] = useState<number>(
-    DEFAULT_TOTAL_MINUTES
-  );
-  const [limitTimeMinutes, setLimitTimeMinutes] =
-    useState<number>(DEFAULT_TURN_MINUTES);
   const timerIdRef = useRef<number | null>(null);
 
   const start = () => {
@@ -62,10 +65,10 @@ export default function useTimer(
   };
 
   const initTotalTime = () => {
-    setTotalTime(endTimerMinutes * MS_TO_MIN);
+    setTotalTime(totalMinutes * MS_TO_MIN);
   };
   const initTurnTime = () => {
-    setTurnTime(limitTimeMinutes * MS_TO_MIN);
+    setTurnTime(turnLimitMinutes * MS_TO_MIN);
   };
 
   const clearTimerId = () => {
@@ -118,8 +121,6 @@ export default function useTimer(
     status,
     totalTime: totalTime,
     turnTime: turnTime,
-    setEndTimerMinutes,
-    setLimitTimeMinutes,
     start,
     wait,
     pause,

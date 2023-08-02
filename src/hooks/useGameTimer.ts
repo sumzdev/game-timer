@@ -1,19 +1,6 @@
 import { useState } from "react";
-import {
-  DEFAULT_TOTAL_MINUTES,
-  DEFAULT_TURN_MINUTES,
-  MAX_TIMER_MIN,
-  MIN_LIMIT_MIN,
-  MIN_TIMER_MIN,
-  STATUS,
-  TURN,
-} from "../constants/timer";
+import { STATUS, TURN } from "../constants/timer";
 import useTimer from "./useTimer";
-
-export interface TimerSettingItems {
-  totalTime: number;
-  limitTime: number;
-}
 
 export interface TimerHandlersType {
   start: (turn?: keyof typeof TURN) => void;
@@ -23,16 +10,27 @@ export interface TimerHandlersType {
   reset: () => void;
 }
 
-export default function useGameTimer() {
+export default function useGameTimer({
+  totalMinutes,
+  turnLimitMinutes,
+}: {
+  totalMinutes: number;
+  turnLimitMinutes: number;
+}) {
   const [status, setStatus] = useState<keyof typeof STATUS>(STATUS.init);
   const [turn, setTurn] = useState<keyof typeof TURN>(TURN.player1);
 
-  const [timerMinutes, setTimerMinutes] = useState(DEFAULT_TOTAL_MINUTES);
-  const [limitMinutes, setLimitMinutes] = useState(DEFAULT_TURN_MINUTES);
-
   const timer = {
-    [TURN.player1]: useTimer(setStatus),
-    [TURN.player2]: useTimer(setStatus),
+    [TURN.player1]: useTimer({
+      totalMinutes,
+      turnLimitMinutes,
+      setTimerStatus: setStatus,
+    }),
+    [TURN.player2]: useTimer({
+      totalMinutes,
+      turnLimitMinutes,
+      setTimerStatus: setStatus,
+    }),
   };
 
   const toggleTurn = () => {
@@ -77,23 +75,6 @@ export default function useGameTimer() {
     timer[getOtherPlayer(turn)].reset();
   };
 
-  const changeTimerSetting = ({ totalTime, limitTime }: TimerSettingItems) => {
-    if (
-      totalTime >= MIN_TIMER_MIN &&
-      totalTime <= MAX_TIMER_MIN &&
-      limitTime >= MIN_LIMIT_MIN &&
-      limitTime < totalTime
-    ) {
-      setTimerMinutes(totalTime);
-      timer[TURN.player1].setEndTimerMinutes(totalTime);
-      timer[TURN.player2].setEndTimerMinutes(totalTime);
-
-      setLimitMinutes(limitTime);
-      timer[TURN.player1].setLimitTimeMinutes(limitTime);
-      timer[TURN.player2].setLimitTimeMinutes(limitTime);
-    }
-  };
-
   return {
     status,
     turn,
@@ -109,9 +90,6 @@ export default function useGameTimer() {
         status: timer[TURN.player2].status,
       },
     },
-    timerMinutes,
-    limitMinutes,
-    changeTimerSetting,
     handlers: { start, switchTurn, pause, stop, reset },
   };
 }

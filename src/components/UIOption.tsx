@@ -15,7 +15,7 @@ const Container = styled.div`
   box-sizing: border-box;
 `;
 
-const Content = styled.div<UITypeProps>`
+const Content2 = styled.div<UITypeProps>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,10 +25,11 @@ const Content = styled.div<UITypeProps>`
   height: 60px;
   color: var(--font-color);
   background-color: #b6d2e8;
-  :first-child {
-    border-bottom: 0.15rem solid var(--font-color);
-    background-color: #cce7f3;
-  }
+`;
+
+const Content1 = styled(Content2)`
+  border-bottom: 0.15rem solid var(--font-color);
+  background-color: #cce7f3;
 `;
 
 const Text1 = styled.div<UITypeProps>`
@@ -47,12 +48,12 @@ const Text2 = styled.div<UITypeProps>`
 function UIOption({ uiType }: UITypeProps) {
   return (
     <Container>
-      <Content uiType={uiType}>
+      <Content1 uiType={uiType}>
         <Text1 uiType={uiType}>12:30</Text1>
-      </Content>
-      <Content uiType={uiType}>
+      </Content1>
+      <Content2 uiType={uiType}>
         <Text2 uiType={uiType}>12:30</Text2>
-      </Content>
+      </Content2>
     </Container>
   );
 }

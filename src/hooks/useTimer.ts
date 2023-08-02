@@ -1,12 +1,12 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import {
-  DEAFAULT_TOTAL_MINUTES,
+  DEFAULT_TOTAL_MINUTES,
   DEFAULT_TURN_MINUTES,
   STATUS,
   TIMER_STATUS,
 } from "../constants/timer";
 
-const MS_BY_COUNT = 100;
+const MS_BY_COUNT = 1000;
 const MS_TO_MIN = 60 * 1000;
 
 export default function useTimer(
@@ -15,12 +15,10 @@ export default function useTimer(
   const [status, setStatus] = useState<keyof typeof TIMER_STATUS>(
     TIMER_STATUS.init
   );
-  const [totalTime, setTotalTime] = useState(
-    DEAFAULT_TOTAL_MINUTES * MS_TO_MIN
-  );
+  const [totalTime, setTotalTime] = useState(DEFAULT_TOTAL_MINUTES * MS_TO_MIN);
   const [turnTime, setTurnTime] = useState(DEFAULT_TURN_MINUTES * MS_TO_MIN);
   const [endTimerMinutes, setEndTimerMinutes] = useState<number>(
-    DEAFAULT_TOTAL_MINUTES
+    DEFAULT_TOTAL_MINUTES
   );
   const [limitTimeMinutes, setLimitTimeMinutes] =
     useState<number>(DEFAULT_TURN_MINUTES);
@@ -43,6 +41,7 @@ export default function useTimer(
   const wait = () => {
     setStatus(TIMER_STATUS.wait);
     clearTimerId();
+    initTurnTime();
   };
 
   const pause = () => {
@@ -100,21 +99,18 @@ export default function useTimer(
   };
 
   useEffect(() => {
-    if (turnTime <= 0) {
-      setTimerStatus(STATUS.end);
+    if (turnTime - MS_BY_COUNT <= 0) {
       setStatus(TIMER_STATUS.endTurn);
+      setTimerStatus(STATUS.end);
       clearTimerId();
-      initTotalTime();
-      initTurnTime();
     }
   }, [turnTime]);
 
   useEffect(() => {
-    if (totalTime <= 0) {
+    if (totalTime - MS_BY_COUNT <= 0) {
       setStatus(TIMER_STATUS.end);
+      setTimerStatus(STATUS.end);
       clearTimerId();
-      initTotalTime();
-      initTurnTime();
     }
   }, [totalTime]);
 

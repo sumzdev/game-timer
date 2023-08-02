@@ -16,6 +16,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
+  gap: 10px;
+  padding: 10px;
 `;
 
 function GameTimer() {
@@ -39,14 +41,18 @@ function GameTimer() {
       />
       <Wrapper>
         <TimerContainer
-          status={status}
+          gameStatus={status}
+          status={player1.status}
+          player={TURN.player1}
           curTurn={turn === TURN.player1}
           totalTime={player1.totalTime}
           turnTime={player1.turnTime}
           handlers={handlers}
         />
         <TimerContainer
-          status={status}
+          gameStatus={status}
+          status={player2.status}
+          player={TURN.player2}
           curTurn={turn === TURN.player2}
           totalTime={player2.totalTime}
           turnTime={player2.turnTime}

@@ -9,7 +9,10 @@ interface UITypeProps {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  border: 2px solid black;
+  width: fit-content;
+  height: fit-content;
+  border: 0.15rem solid var(--font-color);
+  box-sizing: border-box;
 `;
 
 const Content = styled.div<UITypeProps>`
@@ -20,11 +23,12 @@ const Content = styled.div<UITypeProps>`
   font-weight: 500;
   width: 70px;
   height: 60px;
+  color: var(--font-color);
+  background-color: #b6d2e8;
   :first-child {
-    border-bottom: 2px solid black;
+    border-bottom: 0.15rem solid var(--font-color);
     background-color: #cce7f3;
   }
-  background-color: #b6d2e8;
 `;
 
 const Text1 = styled.div<UITypeProps>`
@@ -35,6 +39,7 @@ const Text1 = styled.div<UITypeProps>`
       ? "270deg"
       : ""};
 `;
+
 const Text2 = styled.div<UITypeProps>`
   rotate: ${(props) => (props.uiType === UI_TYPE[3] ? "270deg" : "")};
 `;

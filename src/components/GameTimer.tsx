@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "@emotion/styled";
 import { Header, TimerContainer } from ".";
 import useGameTimer from "../hooks/useGameTimer";

@@ -1,4 +1,3 @@
-import React from "react";
 import { Control, Controller } from "react-hook-form";
 import styled from "@emotion/styled";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";

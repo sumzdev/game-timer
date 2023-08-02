@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "@emotion/styled";
 import { IconButton } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";

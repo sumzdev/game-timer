@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "@emotion/styled";
 import { STATUS, TIMER_STATUS, TURN } from "../constants/timer";
 import { TimerHandlersType } from "../hooks/useGameTimer";

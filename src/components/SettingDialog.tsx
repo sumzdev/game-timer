@@ -95,7 +95,7 @@ const UnitLabel = styled(Label)`
 `;
 
 const InputNumber = styled(TextField)`
-  width: 50px;
+  width: 60px;
   .MuiInput-root {
     padding: 0 10px;
   }

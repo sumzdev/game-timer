@@ -9,9 +9,11 @@ import {
   TextField,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { SettingProps } from "../hooks/useTimerSetting";
 import { MAX_TIMER_MIN, MIN_TIMER_MIN } from "../constants/timer";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { SettingProps } from "../hooks/useTimerSetting";
+import { UI_TYPE } from "../constants/mode";
+import UIRadioGroup from "./UIRadioGroup";
 
 interface SettingDialogProps {
   isOpen: boolean;
@@ -23,9 +25,10 @@ interface SettingDialogProps {
   onClose: () => void;
 }
 
-interface FormFields {
+export interface SettingFormFields {
   totalMinutes: number;
   turnLimitMinutes: number;
+  uiType: (typeof UI_TYPE)[keyof typeof UI_TYPE];
 }
 
 const DialogContainer = styled(Dialog)`
@@ -115,18 +118,20 @@ function SettingDialog({
 }: SettingDialogProps) {
   const {
     register,
+    control,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormFields>({
+  } = useForm<SettingFormFields>({
     defaultValues: curSetting,
   });
 
-  const onSubmit: SubmitHandler<FormFields> = (data) => {
-    const { totalMinutes, turnLimitMinutes } = data;
+  const onSubmit: SubmitHandler<SettingFormFields> = (data) => {
+    const { totalMinutes, turnLimitMinutes, uiType } = data;
     handleSubmitSetting({
       totalMinutes: +totalMinutes,
       turnLimitMinutes: +turnLimitMinutes,
+      uiType,
     });
   };
 
@@ -191,6 +196,7 @@ function SettingDialog({
                 `${MIN_TIMER_MIN}이상 ${MAX_TIMER_MIN}이하의 시간만 설정 가능합니다.`}
             </HelperText>
           </InputContainer>
+          <UIRadioGroup control={control} />
           <SubmitButton type="submit" variant="contained">
             Save
           </SubmitButton>

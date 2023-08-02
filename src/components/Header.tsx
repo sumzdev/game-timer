@@ -137,6 +137,7 @@ function Header({
       <SettingDialog
         isOpen={isOpenSetting}
         curSetting={curSetting}
+        initialized={initialized}
         onClose={() => setIsOpenSetting(false)}
         handleSubmitSetting={handleSubmitSetting}
       />

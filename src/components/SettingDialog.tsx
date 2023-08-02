@@ -18,6 +18,7 @@ import UIRadioGroup from "./UIRadioGroup";
 interface SettingDialogProps {
   isOpen: boolean;
   curSetting: SettingProps;
+  initialized: boolean;
   handleSubmitSetting: ({
     totalMinutes,
     turnLimitMinutes,
@@ -86,10 +87,11 @@ const InputWrapper = styled.div`
 
 const Label = styled.label`
   font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--font-color);
 `;
 
-const UnitLabel = styled.div`
-  font-size: 1.1rem;
+const UnitLabel = styled(Label)`
   margin-left: 5px;
 `;
 
@@ -113,6 +115,7 @@ const SubmitButton = styled(Button)`
 function SettingDialog({
   isOpen,
   curSetting,
+  initialized,
   handleSubmitSetting,
   onClose,
 }: SettingDialogProps) {
@@ -145,9 +148,11 @@ function SettingDialog({
       <Container>
         <Bar>
           <p>Settings</p>
-          <CloseButton onClick={handleClose}>
-            <ArrowBackIosIcon />
-          </CloseButton>
+          {initialized && (
+            <CloseButton onClick={handleClose}>
+              <ArrowBackIosIcon />
+            </CloseButton>
+          )}
         </Bar>
         <SettingForm onSubmit={handleSubmit(onSubmit)}>
           <InputContainer>

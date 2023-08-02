@@ -2,7 +2,7 @@ export const MIN_TIMER_MIN = 1;
 export const MAX_TIMER_MIN = 99;
 export const MIN_LIMIT_MIN = 1;
 
-export const DEFAULT_TOTAL_MINUTES = 10;
+export const DEFAULT_TOTAL_MINUTES = 20;
 export const DEFAULT_TURN_MINUTES = 1;
 
 export const TURN = {

@@ -54,8 +54,8 @@ const Wrapper = styled.div<UITypeProps>`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 250px;
-  height: 250px;
+  width: 230px;
+  height: 230px;
   rotate: ${(props) =>
     props.uiType === UI_TYPE[3]
       ? "270deg"
@@ -72,12 +72,12 @@ const TimeWrapper = styled.div`
 `;
 
 const TotalTime = styled.div`
-  font-size: 5rem;
+  font-size: 3.5rem;
   color: var(--font-color);
 `;
 
 const TurnTime = styled.div`
-  font-size: 3em;
+  font-size: 2em;
   color: var(--font-color);
 `;
 

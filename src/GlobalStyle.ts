@@ -44,6 +44,11 @@ const GlobalStyle = css`
     text-decoration: none;
     color: inherit;
   }
+
+  #root {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export default GlobalStyle;

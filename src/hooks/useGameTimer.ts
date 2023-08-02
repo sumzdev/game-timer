@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {
-  DEAFAULT_TOTAL_MINUTES,
+  DEFAULT_TOTAL_MINUTES,
   DEFAULT_TURN_MINUTES,
   MAX_TIMER_MIN,
   MIN_LIMIT_MIN,
@@ -27,7 +27,7 @@ export default function useGameTimer() {
   const [status, setStatus] = useState<keyof typeof STATUS>(STATUS.init);
   const [turn, setTurn] = useState<keyof typeof TURN>(TURN.player1);
 
-  const [timerMinutes, setTimerMinutes] = useState(DEAFAULT_TOTAL_MINUTES);
+  const [timerMinutes, setTimerMinutes] = useState(DEFAULT_TOTAL_MINUTES);
   const [limitMinutes, setLimitMinutes] = useState(DEFAULT_TURN_MINUTES);
 
   const timer = {
@@ -101,10 +101,12 @@ export default function useGameTimer() {
       [TURN.player1]: {
         totalTime: timer[TURN.player1].totalTime,
         turnTime: timer[TURN.player1].turnTime,
+        status: timer[TURN.player1].status,
       },
       [TURN.player2]: {
         totalTime: timer[TURN.player2].totalTime,
         turnTime: timer[TURN.player2].turnTime,
+        status: timer[TURN.player2].status,
       },
     },
     timerMinutes,

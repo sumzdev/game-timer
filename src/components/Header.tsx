@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { IconButton } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -7,12 +7,21 @@ import PauseIcon from "@mui/icons-material/Pause";
 import StopIcon from "@mui/icons-material/Stop";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { BTN_DISABLE_BY_STATUS, STATUS } from "../constants/timer";
-import { TimerHandlersType, TimerSettingItems } from "../hooks/useGameTimer";
+import { TimerHandlersType } from "../hooks/useGameTimer";
+import { SettingDialog } from ".";
+import { SettingProps } from "../hooks/useTimerSetting";
 
 interface HeaderProps {
+  initialized: boolean;
   status: keyof typeof STATUS;
-  curSetting: { timerMinutes: number; limitMinutes: number };
-  changeTimerSetting: ({ totalTime, limitTime }: TimerSettingItems) => void;
+  curSetting: {
+    totalMinutes: number;
+    turnLimitMinutes: number;
+  };
+  changeTimerSetting: ({
+    totalMinutes,
+    turnLimitMinutes,
+  }: SettingProps) => void;
   handlers: TimerHandlersType;
 }
 
@@ -21,6 +30,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-width: 60px;
   width: 60px;
   padding: 10px 0;
 `;
@@ -34,7 +44,10 @@ const ButtonText = styled.p`
   font-size: 0.6rem;
 `;
 
-const ControllerWrapper = styled.div``;
+const ControllerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const ThemeWrapper = styled.div``;
 
@@ -56,15 +69,30 @@ const ResetIcon = styled(RefreshIcon)`
 
 function Menu({
   status,
-  // curSetting,
-  // changeTimerSetting,
+  initialized,
+  curSetting,
+  changeTimerSetting,
   handlers: { start, pause, stop, reset },
 }: HeaderProps) {
+  const [isOpenSetting, setIsOpenSetting] = useState<boolean>(!initialized);
+
+  const handleSubmitSetting = ({
+    totalMinutes,
+    turnLimitMinutes,
+  }: SettingProps) => {
+    changeTimerSetting({ totalMinutes, turnLimitMinutes });
+    setIsOpenSetting(false);
+  };
+
   return (
     <Container>
-      <Button aria-label="setting">
+      <Button
+        aria-label="settings"
+        disabled={BTN_DISABLE_BY_STATUS[status]["setting"]}
+        onClick={() => setIsOpenSetting(true)}
+      >
         <SettingIcon />
-        <ButtonText>setting</ButtonText>
+        <ButtonText>settings</ButtonText>
       </Button>
       <ControllerWrapper>
         <Button
@@ -101,6 +129,12 @@ function Menu({
         </Button>
       </ControllerWrapper>
       <ThemeWrapper></ThemeWrapper>
+      <SettingDialog
+        isOpen={isOpenSetting}
+        curSetting={curSetting}
+        onClose={() => setIsOpenSetting(false)}
+        handleSubmitSetting={handleSubmitSetting}
+      />
     </Container>
   );
 }

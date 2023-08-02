@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { Header, TimerContainer } from ".";
 import useGameTimer from "../hooks/useGameTimer";
 import { TURN } from "../constants/timer";
+import useTimerSetting from "../hooks/useTimerSetting";
 
 const Container = styled.div`
   display: flex;
@@ -21,21 +22,22 @@ const Wrapper = styled.div`
 `;
 
 function GameTimer() {
+  const { initialized, totalMinutes, turnLimitMinutes, changeTimerSetting } =
+    useTimerSetting();
+
   const {
     status,
     turn,
     timer: { [TURN.player1]: player1, [TURN.player2]: player2 },
-    timerMinutes,
-    limitMinutes,
-    changeTimerSetting,
     handlers,
-  } = useGameTimer();
+  } = useGameTimer({ totalMinutes, turnLimitMinutes });
 
   return (
     <Container>
       <Header
+        initialized={initialized}
         status={status}
-        curSetting={{ timerMinutes, limitMinutes }}
+        curSetting={{ totalMinutes, turnLimitMinutes }}
         changeTimerSetting={changeTimerSetting}
         handlers={handlers}
       />
